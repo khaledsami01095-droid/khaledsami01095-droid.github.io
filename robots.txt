@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://khaledsami01095-droid.github.io/sitemap.xml
