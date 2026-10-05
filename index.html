@@ -362,10 +362,12 @@
 </footer>
 
 <script>
-  // ---- projects: fill url + thumb when the films arrive ----
-  const PROJECTS = [{"k": "studying", "ar": "فيديو تعليمي عن المذاكرة", "en": "Studying explainer", "client": "", "type": "EXPLAINER · 16:9", "o": "h", "dur": "0:30", "url": "", "feature": true, "poster": "media/studying.jpg", "clip": "media/studying.mp4", "full": "media/full/studying.mp4"}, {"k": "zambia", "ar": "الخيانة العظمى تلاحق زعيم المعارضة في زامبيا", "en": "Treason case against Zambia's opposition leader", "client": "The African Eye", "type": "NEWS REEL · 9:16", "o": "v", "dur": "1:11", "poster": "media/zambia.jpg", "clip": "media/zambia.mp4", "url": "", "full": "media/full/zambia.mp4"}, {"k": "arabiya", "ar": "تحذير أممي من تطهير عرقي في غزة", "en": "UN warning of ethnic cleansing in Gaza", "client": "Al Arabiya", "type": "NEWS REEL · 9:16", "o": "v", "dur": "1:44", "poster": "media/arabiya.jpg", "clip": "media/arabiya.mp4", "url": "", "full": "media/full/arabiya.mp4"}, {"k": "secret", "ar": "ملف سري خطير: الأسلحة الكيميائية في السودان", "en": "Secret file: chemical weapons in Sudan", "client": "The African Eye", "type": "INVESTIGATION · 9:16", "o": "v", "dur": "2:18", "poster": "media/secret.jpg", "clip": "media/secret.mp4", "url": "", "full": "media/full/secret.mp4"}];
+  // ---- projects: edited from the admin panel and saved in projects.json ----
   const grid = document.getElementById('grid');
+  let PROJECTS = [];
+  fetch('projects.json?v=' + Date.now()).then(r => r.json()).then(list => { PROJECTS = list; render(); });
   const playSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  function render(){
   PROJECTS.forEach(p => {
     const a = document.createElement('article');
     a.className = 'card' + (p.feature ? ' feature' : '') + (p.o === 'v' ? ' vert' : '');
@@ -397,6 +399,9 @@
       t.addEventListener('dblclick', () => openFilm(p));
     }
   });
+  document.getElementById('count').textContent = PROJECTS.length + ' CLIPS';
+  document.getElementById('worknote').hidden = PROJECTS.every(p => p.url);
+  }
 
   // ---- full-film player ----
   const lb = document.getElementById('lb'), lbv = document.getElementById('lb-video'), lbt = document.getElementById('lb-title');
@@ -413,8 +418,6 @@
   document.getElementById('lb-fs').addEventListener('click', () => { const el = lbv; (el.requestFullscreen ? el.requestFullscreen() : el.webkitEnterFullscreen ? el.webkitEnterFullscreen() : null); });
   lb.addEventListener('click', e => { if (e.target === lb) closeFilm(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeFilm(); });
-  document.getElementById('count').textContent = PROJECTS.length + ' CLIPS';
-  document.getElementById('worknote').hidden = PROJECTS.every(p => p.url);
 
   // ---- language ----
   function setLang(l){

@@ -1,0 +1,68 @@
+[
+ {
+  "k": "studying",
+  "ar": "فيديو تعليمي عن المذاكرة",
+  "en": "Studying explainer",
+  "client": "",
+  "type": "EXPLAINER · 16:9",
+  "o": "h",
+  "dur": "0:30",
+  "url": "",
+  "feature": true,
+  "poster": "media/pmuuymd19.jpg",
+  "clip": "media/studying.mp4",
+  "full": "media/full/studying.mp4"
+ },
+ {
+  "k": "massacre",
+  "ar": "مجزرة بجنب السودان",
+  "en": "A massacre next to Sudan",
+  "client": "The African Eye",
+  "type": "NEWS REEL · 9:16",
+  "o": "v",
+  "dur": "0:54",
+  "poster": "media/pmuuylkj1.jpg",
+  "clip": "media/massacre.mp4",
+  "url": "",
+  "full": "media/full/massacre.mp4"
+ },
+ {
+  "k": "ethiopia",
+  "ar": "شمال إثيوبيا",
+  "en": "Northern Ethiopia",
+  "client": "The African Eye",
+  "type": "NEWS REEL · 9:16",
+  "o": "v",
+  "dur": "0:54",
+  "poster": "media/pmuuylz12.jpg",
+  "clip": "media/ethiopia.mp4",
+  "url": "",
+  "full": "media/full/ethiopia.mp4"
+ },
+ {
+  "k": "zambia",
+  "ar": "الخيانة العظمى تلاحق زعيم المعارضة في زامبيا",
+  "en": "Treason case against Zambia's opposition leader",
+  "client": "The African Eye",
+  "type": "NEWS REEL · 9:16",
+  "o": "v",
+  "dur": "1:11",
+  "poster": "media/pmuuymoju.jpg",
+  "clip": "media/zambia.mp4",
+  "url": "",
+  "full": "media/full/zambia.mp4"
+ },
+ {
+  "k": "arabiya",
+  "ar": "تحذير أممي من تطهير عرقي في غزة",
+  "en": "UN warning of ethnic cleansing in Gaza",
+  "client": "Al Arabiya",
+  "type": "NEWS REEL · 9:16",
+  "o": "v",
+  "dur": "1:44",
+  "poster": "media/pmuuymvax.jpg",
+  "clip": "media/arabiya.mp4",
+  "url": "",
+  "full": "media/full/arabiya.mp4"
+ }
+]
