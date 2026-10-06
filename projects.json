@@ -10,8 +10,7 @@
   "poster": "media/pmuwdf7sr.jpg",
   "clip": "media/vmuwddf1u.mp4",
   "url": "",
-  "full": "media/full/vmuwddf1u.mp4",
-  "feature": true
+  "full": "media/full/vmuwddf1u.mp4"
  },
  {
   "k": "arabiya",
@@ -35,7 +34,6 @@
   "o": "h",
   "dur": "0:30",
   "url": "",
-  "feature": true,
   "poster": "media/pmuuymd19.jpg",
   "clip": "media/studying.mp4",
   "full": "media/full/studying.mp4"
