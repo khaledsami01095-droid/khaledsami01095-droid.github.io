@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="خالد سامي | مونتير فيديو وموشن جرافيك">
 <meta property="og:description" content="إعلانات، ريلز، وثائقي، أخبار. شوف الشغل وكلّمني.">
-<meta property="og:image" content="https://khaledsami01095-droid.github.io/media/zambia.jpg">
+<meta property="og:image" content="https://khaledsami01095-droid.github.io/media/pmvz9jhg4.jpg">
 <meta property="og:locale" content="ar_EG">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
@@ -143,15 +143,15 @@
   .fab:hover{transform:translateY(-2px)}
 
   .full{background:none;border:0;padding:0;cursor:pointer;text-align:start;font-family:inherit}
-  .lb{position:fixed;inset:0;z-index:40;background:rgba(6,8,10,.92);backdrop-filter:blur(8px);display:grid;place-items:center;padding:16px}
-  .lb-box{width:min(1100px,100%);display:flex;flex-direction:column;gap:12px;position:relative}
+  .lb{position:fixed;inset:0;z-index:40;background:rgba(6,8,10,.92);backdrop-filter:blur(8px);display:grid;place-items:center;place-items:safe center;padding:16px;overflow:auto}
+  .lb-box{width:min(1100px,100%);display:flex;flex-direction:column;gap:12px;position:relative;padding-top:48px}
   .lb.vert .lb-box{width:min(480px,100%)}
-  .lb video{width:100%;max-height:78vh;background:#000;border-radius:12px;border:1px solid var(--line-2);display:block}
+  .lb video{width:100%;max-height:78vh;max-height:calc(100svh - 150px);background:#000;border-radius:12px;border:1px solid var(--line-2);display:block}
   .lb.vert video{aspect-ratio:9/16}
   .lb-title{font-family:var(--ar-display);font-weight:700;font-size:18px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
   body[data-lang="en"] .lb-title{font-family:var(--en-display);font-size:15px}
   .lb-title small{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--amb)}
-  .lb-close{position:absolute;top:-44px;inset-inline-end:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);cursor:pointer;font-size:14px}
+  .lb-close{position:absolute;top:0;inset-inline-end:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);cursor:pointer;font-size:14px}
 
   /* about */
   .about{display:grid;grid-template-columns:minmax(220px,340px) 1fr;gap:clamp(24px,5vw,64px);align-items:center}
@@ -169,7 +169,8 @@
   .head p::before{content:"";display:inline-block;width:8px;height:8px;background:var(--acc);margin-inline-end:8px;border-radius:2px}
 
   /* work grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:22px}
+  .load-err{grid-column:1/-1;text-align:center;color:var(--mute);padding:30px 0}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
   .card:hover{border-color:var(--acc);transform:translateY(-3px);box-shadow:0 18px 44px rgba(63,216,232,.12)}
   .card.feature{grid-column:1/-1}
@@ -195,7 +196,7 @@
   .full.open-film{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:9px 14px;border-radius:999px;border:1px solid var(--acc);color:var(--acc);font-size:13px;font-weight:600;transition:background .15s,color .15s}
   .full.open-film svg{width:14px;height:14px}
   .full.open-film:hover{background:var(--acc);color:var(--acc-ink)}
-  .lb-fs{position:absolute;top:-44px;inset-inline-start:0;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);cursor:pointer;font-family:inherit;font-size:13px}
+  .lb-fs{position:absolute;top:0;inset-inline-start:0;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);cursor:pointer;font-family:inherit;font-size:13px}
   .lb-fs:hover{border-color:var(--acc)}
   .meta{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
   .meta .tag{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--amb)}
@@ -237,7 +238,31 @@
   .clist svg{width:18px;height:18px;color:var(--acc);flex:none}
   footer{padding-block:28px;color:var(--mute);font-family:var(--mono);font-size:11px;letter-spacing:.06em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  /* gate overlay */
+  .gate{position:fixed;inset:0;z-index:60;background:rgba(14,16,18,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:grid;place-items:center;padding:20px;transition:opacity 200ms ease,visibility 200ms ease}
+  .gate[hidden]{display:none!important}
+  .gate.closing{opacity:0;visibility:hidden}
+  .gate-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:32px 28px;width:min(420px,100%);box-shadow:0 24px 60px rgba(0,0,0,.6);position:relative;display:flex;flex-direction:column}
+  .gate-top{display:flex;justify-content:flex-end;margin-bottom:12px}
+  .gate-lang{display:flex;border:1px solid var(--line-2);border-radius:999px;overflow:hidden}
+  .gate-lang button{background:transparent;border:0;color:var(--ink-2);font:500 12px/1 var(--mono);padding:7px 12px;cursor:pointer;letter-spacing:.06em}
+  .gate-lang button[aria-pressed="true"]{background:var(--amb);color:var(--amb-ink)}
+  .gate-title{margin:0 0 8px;font-family:var(--ar-display);font-weight:900;font-size:26px;color:var(--ink);line-height:1.2}
+  body[data-lang="en"] .gate-title{font-family:var(--en-display);font-size:22px}
+  .gate-desc{margin:0 0 20px;color:var(--ink-2);font-size:15px;line-height:1.6}
+  .gate-input-wrap{display:flex;flex-direction:column;gap:8px}
+  .gate-input{font:inherit;font-size:16px;background:var(--panel-2);color:var(--ink);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;width:100%;outline:none;transition:border-color .15s}
+  .gate-input:focus{border-color:var(--acc)}
+  .gate-input.shake{animation:gate-shake .35s ease-in-out;border-color:var(--rose)!important}
+  @keyframes gate-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  .gate-hint{color:var(--rose);font-size:13px;display:none;margin-top:2px}
+  .gate-btn{width:100%;justify-content:center;margin-top:16px;padding:12px 20px;font-size:15px;cursor:pointer}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .gate{transition:none!important}
+    .gate-input.shake{animation:none!important}
+  }
 </style>
 
 <div class="bar"><div class="wrap">
@@ -361,28 +386,62 @@
   <span>25 FPS · 1920×1080 · CAIRO</span>
 </footer>
 
+<!-- gate overlay -->
+<div id="gate" class="gate" hidden>
+  <div class="gate-card">
+    <div class="gate-top">
+      <div class="lang gate-lang" role="group" aria-label="Language">
+        <button type="button" id="gate-btn-ar" aria-pressed="true">عربي</button>
+        <button type="button" id="gate-btn-en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <h2 class="gate-title"><span class="ar">أهلاً بيك 👋</span><span class="en">Welcome 👋</span></h2>
+    <p class="gate-desc"><span class="ar">اكتب اسمك وادخل على الشغل</span><span class="en">Type your name to see the work</span></p>
+    <form id="gate-form" novalidate>
+      <div class="gate-input-wrap">
+        <input type="text" id="gate-name" class="gate-input" maxlength="40" autofocus placeholder="اسمك" autocomplete="name">
+        <div id="gate-hint" class="gate-hint"><span class="ar">الاسم لازم يكون حرفين أو أكتر</span><span class="en">Name must be at least 2 characters</span></div>
+      </div>
+      <button type="submit" class="btn primary gate-btn"><span class="ar">دخول</span><span class="en">Enter</span></button>
+    </form>
+  </div>
+</div>
+
 <script>
   // ---- projects: edited from the admin panel and saved in projects.json ----
   const grid = document.getElementById('grid');
   let PROJECTS = [];
-  fetch('projects.json?v=' + Date.now()).then(r => r.json()).then(list => { PROJECTS = list; render(); });
+  // text typed in the admin goes into HTML here, so a quote or "<" in a title must not break the card
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // a dropped connection must not leave the work section empty: retry, then say so
+  function loadProjects(tries){
+    fetch('projects.json?v=' + Date.now())
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(list => { if (!Array.isArray(list)) throw new Error('bad list'); PROJECTS = list; render(); })
+      .catch(() => {
+        if (tries > 0) return setTimeout(() => loadProjects(tries - 1), 2000);
+        grid.innerHTML = '<p class="load-err"><span class="ar">الشغل ماحمّلش. اعمل تحديث للصفحة.</span><span class="en">The work didn\'t load. Please refresh the page.</span></p>';
+      });
+  }
+  loadProjects(2);
   const playSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
   function render(){
-  PROJECTS.forEach(p => {
+  PROJECTS.forEach(p => { try {
     const a = document.createElement('article');
     a.className = 'card' + (p.feature ? ' feature' : '') + (p.o === 'v' ? ' vert' : '');
+    const url = /^https:\/\//i.test(p.url || '') ? p.url : '';
     a.innerHTML =
-      '<div class="thumb" tabindex="0" role="button" aria-label="' + p.en + '">' +
-        (p.o === 'v' ? '<img class="bg" src="' + p.poster + '" alt="">' : '') +
-        '<video class="clip-el" muted loop playsinline preload="none" poster="' + p.poster + '"><source src="' + p.clip + '" type="video/mp4"></video>' +
+      '<div class="thumb" tabindex="0" role="button" aria-label="' + esc(p.en || p.ar) + '">' +
+        (p.o === 'v' ? '<img class="bg" src="' + esc(p.poster) + '" alt="">' : '') +
+        '<video class="clip-el" muted loop playsinline preload="none" poster="' + esc(p.poster) + '"><source src="' + esc(p.clip) + '" type="video/mp4"></video>' +
         '<span class="play">' + playSvg + '</span>' +
-        '<span class="dur">' + p.dur + '</span>' +
+        '<span class="dur">' + esc(p.dur) + '</span>' +
         '<div class="scrub"><i></i></div>' +
       '</div>' +
-      '<div class="meta"><div class="tag"><span>' + p.type + '</span>' + (p.client ? '<em>·</em><em>' + p.client + '</em>' : '') + '</div>' +
-      '<h3><span class="ar">' + p.ar + '</span><span class="en">' + p.en + '</span></h3>' +
-      (p.full ? '<button type="button" class="full open-film">' + playSvg + '<span class="ar">شاهد الفيلم كامل بالصوت</span><span class="en">Watch the full film with sound</span> · ' + p.dur + '</button>'
-       : p.url ? '<a class="full" href="' + p.url + '" target="_blank" rel="noopener"><span class="ar">شاهد الفيلم كامل</span><span class="en">Watch the full film</span> ↗</a>'
+      '<div class="meta"><div class="tag"><span>' + esc(p.type) + '</span>' + (p.client ? '<em>·</em><em>' + esc(p.client) + '</em>' : '') + '</div>' +
+      '<h3><span class="ar">' + esc(p.ar) + '</span><span class="en">' + esc(p.en) + '</span></h3>' +
+      (p.full ? '<button type="button" class="full open-film">' + playSvg + '<span class="ar">شاهد الفيلم كامل بالصوت</span><span class="en">Watch the full film with sound</span> · ' + esc(p.dur) + '</button>'
+       : url ? '<a class="full" href="' + esc(url) + '" target="_blank" rel="noopener"><span class="ar">شاهد الفيلم كامل</span><span class="en">Watch the full film</span> ↗</a>'
              : '<span class="full pending"><span class="ar">معاينة 14 ثانية · الفيلم الكامل قريباً</span><span class="en">14-second preview · full film soon</span></span>') +
       '</div>';
     grid.appendChild(a);
@@ -394,29 +453,31 @@
     t.addEventListener('click', () => p.full ? openFilm(p) : (a.classList.contains('playing') ? stop() : start()));
     t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t.click(); } });
     v.addEventListener('timeupdate', () => { a.querySelector('.scrub i').style.width = (v.duration ? v.currentTime / v.duration * 100 : 0) + '%'; });
-    if (p.full) {
-      a.querySelector('.open-film').addEventListener('click', () => openFilm(p));
-      t.addEventListener('dblclick', () => openFilm(p));
-    }
-  });
+    if (p.full) a.querySelector('.open-film').addEventListener('click', () => openFilm(p));
+  } catch (e) { /* one broken entry must not hide the rest of the work */ } });
   document.getElementById('count').textContent = PROJECTS.length + ' CLIPS';
   document.getElementById('worknote').hidden = PROJECTS.every(p => p.url);
   }
 
   // ---- full-film player ----
   const lb = document.getElementById('lb'), lbv = document.getElementById('lb-video'), lbt = document.getElementById('lb-title');
+  let openedAt = 0;
   function openFilm(p){
     lbv.pause(); lbv.src = p.full; lbv.poster = p.poster; lbv.muted = false; lbv.volume = 1; lbv.controls = true;
     lb.classList.toggle('vert', p.o === 'v');
-    lbt.innerHTML = '<span class="ar">' + p.ar + '</span><span class="en">' + p.en + '</span><small>' + (p.client ? p.client + ' · ' : '') + p.dur + '</small>';
-    lb.hidden = false; document.body.style.overflow = 'hidden';
+    lbt.innerHTML = '<span class="ar">' + esc(p.ar) + '</span><span class="en">' + esc(p.en) + '</span><small>' + (p.client ? esc(p.client) + ' · ' : '') + esc(p.dur) + '</small>';
+    if (lb.hidden) history.pushState({ film: 1 }, '');   // the phone's back button closes the film, not the site
+    lb.hidden = false; document.body.style.overflow = 'hidden'; openedAt = Date.now();
     document.querySelectorAll('.card video').forEach(x => x.pause());
     lbv.play().catch(()=>{});
   }
-  function closeFilm(){ lbv.pause(); lbv.removeAttribute('src'); lbv.load(); lb.hidden = true; document.body.style.overflow = ''; }
+  function hideFilm(){ lbv.pause(); lbv.removeAttribute('src'); lbv.load(); lb.hidden = true; document.body.style.overflow = ''; }
+  function closeFilm(){ if (lb.hidden) return; if (history.state && history.state.film) history.back(); else hideFilm(); }
+  addEventListener('popstate', () => { if (!lb.hidden) hideFilm(); });
   document.getElementById('lb-close').addEventListener('click', closeFilm);
   document.getElementById('lb-fs').addEventListener('click', () => { const el = lbv; (el.requestFullscreen ? el.requestFullscreen() : el.webkitEnterFullscreen ? el.webkitEnterFullscreen() : null); });
-  lb.addEventListener('click', e => { if (e.target === lb) closeFilm(); });
+  // the second click of a double-click lands on the backdrop: don't let it close the film it just opened
+  lb.addEventListener('click', e => { if (e.target === lb && Date.now() - openedAt > 400) closeFilm(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeFilm(); });
 
   // ---- language ----
@@ -433,6 +494,146 @@
   let saved = 'ar';
   try { saved = localStorage.getItem('ks-lang') || 'ar'; } catch(e) {}
   setLang(saved);
+
+  // ---- visitor gate & logging ----
+  let visitorEndpoint = '';
+  let configReady = false;
+  let pendingLogName = null;
+
+  function doSendLog(endpoint, name) {
+    if (!endpoint || !name) return;
+    try {
+      if (sessionStorage.getItem('ks-logged')) return;
+    } catch (e) {}
+
+    const payload = JSON.stringify({ name: name });
+    let sent = false;
+    if (navigator.sendBeacon) {
+      try {
+        sent = navigator.sendBeacon(endpoint, new Blob([payload], { type: 'text/plain' }));
+      } catch (err) {
+        sent = false;
+      }
+    }
+    if (!sent) {
+      fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'text/plain' },
+        body: payload
+      }).catch(() => {});
+    }
+    try { sessionStorage.setItem('ks-logged', '1'); } catch (e) {}
+  }
+
+  function logVisit(name) {
+    if (!name) return;
+    if (configReady) {
+      doSendLog(visitorEndpoint, name);
+    } else {
+      pendingLogName = name;
+    }
+  }
+
+  // the gate exists to record names: until the counter is set up (no endpoint), don't make visitors type one
+  function dropGate() {
+    const g = document.getElementById('gate');
+    if (!g) return;
+    g.remove();
+    if (lb.hidden) document.body.style.overflow = '';
+  }
+  fetch('site-config.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(cfg => {
+      visitorEndpoint = (cfg && cfg.visitorEndpoint) || '';
+      configReady = true;
+      if (!visitorEndpoint) dropGate();
+      if (pendingLogName) {
+        doSendLog(visitorEndpoint, pendingLogName);
+        pendingLogName = null;
+      }
+    })
+    .catch(() => {
+      configReady = true;
+      dropGate();
+    });
+
+  const gate = document.getElementById('gate');
+  const gateForm = document.getElementById('gate-form');
+  const gateInput = document.getElementById('gate-name');
+  const gateHint = document.getElementById('gate-hint');
+  const gateBtnAr = document.getElementById('gate-btn-ar');
+  const gateBtnEn = document.getElementById('gate-btn-en');
+
+  function updateGateLang(l) {
+    if (gateBtnAr) gateBtnAr.setAttribute('aria-pressed', l === 'ar');
+    if (gateBtnEn) gateBtnEn.setAttribute('aria-pressed', l === 'en');
+    if (gateInput) gateInput.placeholder = (l === 'en') ? 'Your name' : 'اسمك';
+  }
+
+  const baseSetLang = setLang;
+  setLang = function(l) {
+    baseSetLang(l);
+    updateGateLang(l);
+  };
+  if (gateBtnAr) gateBtnAr.onclick = () => setLang('ar');
+  if (gateBtnEn) gateBtnEn.onclick = () => setLang('en');
+  updateGateLang(document.body.dataset.lang || 'ar');
+
+  // opened from the admin panel preview (localhost:4321/site/): no gate, never logged
+  const isAdminPreview = location.pathname.indexOf('/site/') === 0;
+  let savedVisitorName = null;
+  try { savedVisitorName = localStorage.getItem('ks-visitor-name'); } catch (e) {}
+
+  if (isAdminPreview) {
+    if (gate) gate.remove();
+  } else if (savedVisitorName) {
+    if (gate) gate.remove();
+    logVisit(savedVisitorName);
+  } else if (gate) {
+    gate.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (gateInput) setTimeout(() => gateInput.focus(), 50);
+
+    gateInput.addEventListener('input', () => {
+      if (gateInput.value.trim().length >= 2) {
+        gateHint.style.display = 'none';
+        gateInput.classList.remove('shake');
+      }
+    });
+
+    gateForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = gateInput.value.trim();
+      if (val.length < 2) {
+        gateHint.style.display = 'block';
+        gateInput.classList.remove('shake');
+        void gateInput.offsetWidth;
+        gateInput.classList.add('shake');
+        gateInput.focus();
+        return;
+      }
+
+      try { localStorage.setItem('ks-visitor-name', val); } catch (err) {}
+
+      document.body.style.overflow = '';
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) {
+        gate.hidden = true;
+        gate.remove();
+      } else {
+        gate.classList.add('closing');
+        setTimeout(() => {
+          gate.hidden = true;
+          gate.remove();
+        }, 200);
+      }
+
+      logVisit(val);
+    });
+  }
 
   // ---- scroll position as timecode, 25 fps ----
   const tc = document.getElementById('tc');
