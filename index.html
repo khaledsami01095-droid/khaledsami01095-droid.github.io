@@ -238,30 +238,8 @@
   .clist svg{width:18px;height:18px;color:var(--acc);flex:none}
   footer{padding-block:28px;color:var(--mute);font-family:var(--mono);font-size:11px;letter-spacing:.06em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-  /* gate overlay */
-  .gate{position:fixed;inset:0;z-index:60;background:rgba(14,16,18,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:grid;place-items:center;padding:20px;transition:opacity 200ms ease,visibility 200ms ease}
-  .gate[hidden]{display:none!important}
-  .gate.closing{opacity:0;visibility:hidden}
-  .gate-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:32px 28px;width:min(420px,100%);box-shadow:0 24px 60px rgba(0,0,0,.6);position:relative;display:flex;flex-direction:column}
-  .gate-top{display:flex;justify-content:flex-end;margin-bottom:12px}
-  .gate-lang{display:flex;border:1px solid var(--line-2);border-radius:999px;overflow:hidden}
-  .gate-lang button{background:transparent;border:0;color:var(--ink-2);font:500 12px/1 var(--mono);padding:7px 12px;cursor:pointer;letter-spacing:.06em}
-  .gate-lang button[aria-pressed="true"]{background:var(--amb);color:var(--amb-ink)}
-  .gate-title{margin:0 0 8px;font-family:var(--ar-display);font-weight:900;font-size:26px;color:var(--ink);line-height:1.2}
-  body[data-lang="en"] .gate-title{font-family:var(--en-display);font-size:22px}
-  .gate-desc{margin:0 0 20px;color:var(--ink-2);font-size:15px;line-height:1.6}
-  .gate-input-wrap{display:flex;flex-direction:column;gap:8px}
-  .gate-input{font:inherit;font-size:16px;background:var(--panel-2);color:var(--ink);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;width:100%;outline:none;transition:border-color .15s}
-  .gate-input:focus{border-color:var(--acc)}
-  .gate-input.shake{animation:gate-shake .35s ease-in-out;border-color:var(--rose)!important}
-  @keyframes gate-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-  .gate-hint{color:var(--rose);font-size:13px;display:none;margin-top:2px}
-  .gate-btn{width:100%;justify-content:center;margin-top:16px;padding:12px 20px;font-size:15px;cursor:pointer}
-
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
-    .gate{transition:none!important}
-    .gate-input.shake{animation:none!important}
   }
 </style>
 
@@ -386,27 +364,6 @@
   <span>25 FPS · 1920×1080 · CAIRO</span>
 </footer>
 
-<!-- gate overlay -->
-<div id="gate" class="gate" hidden>
-  <div class="gate-card">
-    <div class="gate-top">
-      <div class="lang gate-lang" role="group" aria-label="Language">
-        <button type="button" id="gate-btn-ar" aria-pressed="true">عربي</button>
-        <button type="button" id="gate-btn-en" aria-pressed="false">EN</button>
-      </div>
-    </div>
-    <h2 class="gate-title"><span class="ar">أهلاً بيك 👋</span><span class="en">Welcome 👋</span></h2>
-    <p class="gate-desc"><span class="ar">اكتب اسمك وادخل على الشغل</span><span class="en">Type your name to see the work</span></p>
-    <form id="gate-form" novalidate>
-      <div class="gate-input-wrap">
-        <input type="text" id="gate-name" class="gate-input" maxlength="40" autofocus placeholder="اسمك" autocomplete="name">
-        <div id="gate-hint" class="gate-hint"><span class="ar">الاسم لازم يكون حرفين أو أكتر</span><span class="en">Name must be at least 2 characters</span></div>
-      </div>
-      <button type="submit" class="btn primary gate-btn"><span class="ar">دخول</span><span class="en">Enter</span></button>
-    </form>
-  </div>
-</div>
-
 <script>
   // ---- projects: edited from the admin panel and saved in projects.json ----
   const grid = document.getElementById('grid');
@@ -495,145 +452,34 @@
   try { saved = localStorage.getItem('ks-lang') || 'ar'; } catch(e) {}
   setLang(saved);
 
-  // ---- visitor gate & logging ----
-  let visitorEndpoint = '';
-  let configReady = false;
-  let pendingLogName = null;
-
-  function doSendLog(endpoint, name) {
-    if (!endpoint || !name) return;
-    try {
-      if (sessionStorage.getItem('ks-logged')) return;
-    } catch (e) {}
-
-    const payload = JSON.stringify({ name: name });
-    let sent = false;
-    if (navigator.sendBeacon) {
-      try {
-        sent = navigator.sendBeacon(endpoint, new Blob([payload], { type: 'text/plain' }));
-      } catch (err) {
-        sent = false;
-      }
+  // ---- visit counter: nobody is asked for a name; each browser gets an anonymous visitor label ----
+  (function () {
+    // opened from the admin panel preview (localhost:4321/site/): never counted
+    if (location.pathname.indexOf('/site/') === 0) return;
+    try { if (sessionStorage.getItem('ks-logged')) return; } catch (e) {}
+    let label = null;
+    try { label = localStorage.getItem('ks-visitor-name') || localStorage.getItem('ks-visitor-id'); } catch (e) {}
+    if (!label) {
+      label = 'زائر ' + Math.random().toString(36).slice(2, 8).toUpperCase();
+      try { localStorage.setItem('ks-visitor-id', label); } catch (e) {}
     }
-    if (!sent) {
-      fetch(endpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        keepalive: true,
-        headers: { 'Content-Type': 'text/plain' },
-        body: payload
-      }).catch(() => {});
-    }
-    try { sessionStorage.setItem('ks-logged', '1'); } catch (e) {}
-  }
-
-  function logVisit(name) {
-    if (!name) return;
-    if (configReady) {
-      doSendLog(visitorEndpoint, name);
-    } else {
-      pendingLogName = name;
-    }
-  }
-
-  // the gate exists to record names: until the counter is set up (no endpoint), don't make visitors type one
-  function dropGate() {
-    const g = document.getElementById('gate');
-    if (!g) return;
-    g.remove();
-    if (lb.hidden) document.body.style.overflow = '';
-  }
-  fetch('site-config.json?v=' + Date.now())
-    .then(r => r.ok ? r.json() : null)
-    .then(cfg => {
-      visitorEndpoint = (cfg && cfg.visitorEndpoint) || '';
-      configReady = true;
-      if (!visitorEndpoint) dropGate();
-      if (pendingLogName) {
-        doSendLog(visitorEndpoint, pendingLogName);
-        pendingLogName = null;
-      }
-    })
-    .catch(() => {
-      configReady = true;
-      dropGate();
-    });
-
-  const gate = document.getElementById('gate');
-  const gateForm = document.getElementById('gate-form');
-  const gateInput = document.getElementById('gate-name');
-  const gateHint = document.getElementById('gate-hint');
-  const gateBtnAr = document.getElementById('gate-btn-ar');
-  const gateBtnEn = document.getElementById('gate-btn-en');
-
-  function updateGateLang(l) {
-    if (gateBtnAr) gateBtnAr.setAttribute('aria-pressed', l === 'ar');
-    if (gateBtnEn) gateBtnEn.setAttribute('aria-pressed', l === 'en');
-    if (gateInput) gateInput.placeholder = (l === 'en') ? 'Your name' : 'اسمك';
-  }
-
-  const baseSetLang = setLang;
-  setLang = function(l) {
-    baseSetLang(l);
-    updateGateLang(l);
-  };
-  if (gateBtnAr) gateBtnAr.onclick = () => setLang('ar');
-  if (gateBtnEn) gateBtnEn.onclick = () => setLang('en');
-  updateGateLang(document.body.dataset.lang || 'ar');
-
-  // opened from the admin panel preview (localhost:4321/site/): no gate, never logged
-  const isAdminPreview = location.pathname.indexOf('/site/') === 0;
-  let savedVisitorName = null;
-  try { savedVisitorName = localStorage.getItem('ks-visitor-name'); } catch (e) {}
-
-  if (isAdminPreview) {
-    if (gate) gate.remove();
-  } else if (savedVisitorName) {
-    if (gate) gate.remove();
-    logVisit(savedVisitorName);
-  } else if (gate) {
-    gate.hidden = false;
-    document.body.style.overflow = 'hidden';
-    if (gateInput) setTimeout(() => gateInput.focus(), 50);
-
-    gateInput.addEventListener('input', () => {
-      if (gateInput.value.trim().length >= 2) {
-        gateHint.style.display = 'none';
-        gateInput.classList.remove('shake');
-      }
-    });
-
-    gateForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const val = gateInput.value.trim();
-      if (val.length < 2) {
-        gateHint.style.display = 'block';
-        gateInput.classList.remove('shake');
-        void gateInput.offsetWidth;
-        gateInput.classList.add('shake');
-        gateInput.focus();
-        return;
-      }
-
-      try { localStorage.setItem('ks-visitor-name', val); } catch (err) {}
-
-      document.body.style.overflow = '';
-
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reducedMotion) {
-        gate.hidden = true;
-        gate.remove();
-      } else {
-        gate.classList.add('closing');
-        setTimeout(() => {
-          gate.hidden = true;
-          gate.remove();
-        }, 200);
-      }
-
-      logVisit(val);
-    });
-  }
+    fetch('site-config.json?v=' + Date.now())
+      .then(r => r.ok ? r.json() : null)
+      .then(cfg => {
+        const endpoint = (cfg && cfg.visitorEndpoint) || '';
+        if (!endpoint) return;
+        const payload = JSON.stringify({ name: label });
+        let sent = false;
+        if (navigator.sendBeacon) {
+          try { sent = navigator.sendBeacon(endpoint, new Blob([payload], { type: 'text/plain' })); } catch (err) { sent = false; }
+        }
+        if (!sent) {
+          fetch(endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain' }, body: payload }).catch(() => {});
+        }
+        try { sessionStorage.setItem('ks-logged', '1'); } catch (e) {}
+      })
+      .catch(() => {});
+  })();
 
   // ---- scroll position as timecode, 25 fps ----
   const tc = document.getElementById('tc');
